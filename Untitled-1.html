@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easter World</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-image: url('https://img.freepik.com/free-vector/easter-background-design_1048-14173.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            min-height: 100vh;
+        }
+
+        .invite-container {
+            text-align: center;
+            padding: 20px;
+            color: white;
+        }
+
+        .referral-link {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            word-break: break-all;
+            font-size: 14px;
+        }
+
+        .share-telegram-btn {
+            background: #0088cc;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 20px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            gap: 10px;
+        }
+
+        .share-telegram-btn i {
+            font-size: 20px;
+        }
+        
+
+        .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px 0;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .marquee-content {
+            display: inline-block;
+            white-space: nowrap;
+            animation: scroll 15s linear infinite;
+            padding-left: 100%;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .marquee-text {
+            display: inline-block;
+            padding-right: 100%;
+        }
+
+        .daily-rewards-container {
+            color: white;
+            padding: 20px;
+        }
+
+        .rewards-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .rewards-table tr {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .rewards-table td {
+            padding: 15px;
+            text-align: left;
+        }
+
+        .claim-btn {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 15px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .claim-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+
+        .claimed {
+            display: none;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 10px;
+        }
+
+        .page-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .page-btn.active {
+            background: #007bff;
+        }
+
+        .reward-amount {
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        .tab-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-evenly;
+            padding: 10px 0;
+        }
+
+        .tab-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: #666;
+            font-size: 12px;
+            text-decoration: none;
+            width: 14.28%;
+        }
+
+        .tab-button i {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        .tab-button.active {
+            color: #007bff;
+        }
+
+        .tab-button[href="#daily-rewards"] span,
+        .tab-button[href="#mining"] span {
+            text-align: center;
+        }
+
+        .content {
+            margin-top: 60px;
+            margin-bottom: 70px;
+            padding: 20px;
+        }
+
+        .rbt-balance {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(199, 199, 199, 0.7);
+            padding: 15px;
+            margin: 30px;
+            border-radius: 20px;
+            color: white;
+        }
+
+        .mining-container {
+            position: fixed;
+            bottom: 80px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .mining-value {
+            color: white;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .start-mining-btn, .timer, .claim-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            margin-bottom: 10px;
+        }
+
+        .mining-power {
+            color: white;
+            margin-top: 10px;
+        }
+
+        .wallet-button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .wallet-button i {
+            font-size: 24px;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .wallet-section {
+        padding: 20px;
+        color: white;
+    }
+
+    .withdraw-btn {
+        background: linear-gradient(45deg, #4CAF50, #45a049);
+        border: none;
+        padding: 12px 25px;
+        border-radius: 20px;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        display: block;
+        margin: 20px auto;
+        width: 200px;
+    }
+
+    .ton-btn {
+        background: linear-gradient(45deg, #2196F3, #1976D2); 
+        border: none;
+        padding: 12px 25px;
+        border-radius: 20px;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        display: block;
+        margin: 10px auto;
+        width: 200px;
+    }
+
+    .wallet-info {
+        text-align: center;
+        margin: 20px 0;
+        font-size: 18px;
+    }
+
+    .mining-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    padding: 20px;
+}
+
+.mining-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    color: white;
+    transition: transform 0.2s;
+}
+
+.mining-card:hover {
+    transform: scale(1.05);
+}
+
+.mining-card h3 {
+    font-size: 18px;
+    margin: 0 0 10px 0;
+}
+
+.mining-card .hashrate {
+    font-size: 16px;
+    color: #ffd700;
+    margin-bottom: 10px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.95);
+    padding: 20px;
+    border-radius: 20px 20px 0 0;
+    color: white;
+    z-index: 1000;
+}
+
+.modal-content {
+    text-align: center;
+}
+
+.modal h2 {
+    margin-bottom: 15px;
+}
+
+.modal .details {
+    margin: 15px 0;
+    font-size: 16px;
+}
+
+.modal .extra-reward {
+    color: #4CAF50;
+    margin: 10px 0;
+}
+
+.buy-btn {
+    background: linear-gradient(45deg, #2196F3, #1976D2);
+    border: none;
+    padding: 12px 25px;
+    border-radius: 20px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    width: 200px;
+    margin: 10px auto;
+}
+
+.close-modal {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="marquee-container">
+        <div class="marquee-content">
+            <span class="marquee-text">🎉 Connect wallet now to join withdrawal event ! 💰 ⭐ Don't miss your rewards ! 🎁</span>
+        </div>
+    </div>
+
+    
+
+    <div class="content">
+        <section id="home" class="section active">
+            <div class="rbt-balance">
+                <span>RBT Balance: <span id="rbt-value">0</span></span>
+                <button class="wallet-button" onclick="navigateToWallet()">
+                    <i class="fas fa-wallet"></i>
+                </button>
+            </div>
+                <div class="mining-container">
+                    <div class="mining-value" id="mining-value">0</div>
+                    <button class="start-mining-btn" id="mining-btn" onclick="startMining()">
+                        ⛏️ Start Mining
+                    </button>
+                    <div class="mining-power">0 mo/s ⚡</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="wallet" class="section">
+            <div class="rbt-balance">
+                <span>RBT Balance: <span id="rbt-value-wallet">0</span></span>
+                <button class="wallet-button">
+                    <i class="fas fa-wallet"></i>
+                </button>
+            </div>
+            <div class="wallet-section">
+                <button class="withdraw-btn" onclick="handleWithdraw()">
+                    Withdraw
+                </button>
+                
+                <div id="ton-section" style="display: none;">
+                    <div class="wallet-info">
+                        Available: <span id="rbt-value-withdraw">0</span> RBT
+                    </div>
+                    <button class="ton-btn" onclick="payWithTon()">
+                        Pay with 1 TON
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <div class="content">
+        <section id="mining-power" class="section">
+            <div style="background: rgba(255, 255, 255, 0.1); border-radius: 15px; padding: 20px; margin-bottom: 20px; text-align: center; color: white;">
+                <h3 style="margin-bottom: 15px;">Boost Your Mining Power! 🚀</h3>
+                <p style="margin-bottom: 15px;">Watch ads to temporarily increase your mining power by 1% per ad for 24 hours!</p>
+                <p style="margin-bottom: 15px; font-size: 14px;">Maximum 50 ads per day - Bonuses stack up to +50%</p>
+                
+                <button id="watchAdBtn" class="buy-btn" onclick="watchAd()" style="margin-bottom: 10px;">
+                    Watch Ad
+                </button>
+                <p id="adCount" style="font-size: 14px;">Ads watched today: 0/50</p>
+                <p id="boostTimer" style="font-size: 14px; display: none;">
+                    Boost expires in: <span id="boostTimeLeft"></span>
+                </p>
+            </div>
+            <button id="showBoostsBtn" class="buy-btn" onclick="toggleBoostList()" style="margin-top: 10px;">
+                Show Active Boosts
+            </button>
+        
+            <div id="boostList" style="display: none; margin-top: 15px; max-height: 200px; overflow-y: auto;">
+                <h4 style="margin-bottom: 10px;">Active Boosts</h4>
+                <div id="activeBoosts" style="text-align: left;">
+                    <!-- Active boosts will be inserted here dynamically -->
+                </div>
+            </div>
+            <div class="mining-cards">
+                <div class="mining-card" onclick="showMiningDetails('starter')">
+                    <h3>Starter Miner</h3>
+                    <div class="hashrate">100 Mo/s</div>
+                    <div>0.1 TON</div>
+                </div>
+                <div class="mining-card" onclick="showMiningDetails('basic')">
+                    <h3>Basic Miner</h3>
+                    <div class="hashrate">500 Mo/s</div>
+                    <div>0.5 TON</div>
+                </div>
+                
+                <div class="mining-card" onclick="showMiningDetails('advanced')">
+                    <h3>Advanced Miner</h3>
+                    <div class="hashrate">2.5 Go/s</div>
+                    <div>1 TON</div>
+                </div>
+                
+                <div class="mining-card" onclick="showMiningDetails('pro')">
+                    <h3>Pro Miner</h3>
+                    <div class="hashrate">15 Go/s</div>
+                    <div>2.5 TON</div>
+                </div>
+
+                <div class="mining-card" onclick="showMiningDetails('elite')">
+                    <h3>Elite Miner</h3>
+                    <div class="hashrate">50 Go/s</div>
+                    <div>5 TON</div>
+                </div>
+                
+                <div class="mining-card" onclick="showMiningDetails('master')">
+                    <h3>Master Miner</h3>
+                    <div class="hashrate">200 Go/s</div>
+                    <div>15 TON</div>
+                </div>
+        
+                <div class="mining-card" onclick="showMiningDetails('supreme')">
+                    <h3>Supreme Miner</h3>
+                    <div class="hashrate">500 Go/s</div>
+                    <div>30 TON</div>
+                </div>
+        
+                <div class="mining-card" onclick="showMiningDetails('ultra')">
+                    <h3>Ultra Miner</h3>
+                    <div class="hashrate">1 To/s</div>
+                    <div>50 TON</div>
+                </div>
+        
+                <div class="mining-card" onclick="showMiningDetails('legendary')">
+                    <h3>Legendary Miner</h3>
+                    <div class="hashrate">2.5 To/s</div>
+                    <div>100 TON</div>
+                </div>
+        
+                <div class="mining-card" onclick="showMiningDetails('mythic')">
+                    <h3>Mythic Miner</h3>
+                    <div class="hashrate">5 To/s</div>
+                    <div>175 TON</div>
+                </div>
+                <div class="mining-card" onclick="showMiningDetails('titan')">
+                    <h3>Titan Miner</h3>
+                    <div class="hashrate">10 To/s</div>
+                    <div>300 TON</div>
+                </div>
+                <div class="mining-card" onclick="showMiningDetails('omega')">
+                    <h3>Omega Miner</h3>
+                    <div class="hashrate">25 To/s</div>
+                    <div>650 TON</div>
+                </div>
+                <div class="mining-card" onclick="showMiningDetails('divine')">
+                    <h3>Divine Miner</h3>
+                    <div class="hashrate">50 To/s</div>
+                    <div>1200 TON</div>
+                </div>
+                <div class="mining-card" onclick="showMiningDetails('infinity')">
+                    <h3>Infinity Miner</h3>
+                    <div class="hashrate">100 To/s</div>
+                    <div>2000 TON</div>
+                </div>
+            
+            </div>
+            
+            <div id="miningModal" class="modal">
+                <button class="close-modal" onclick="closeModal()">&times;</button>
+                <div class="modal-content">
+                    <h2 id="modalTitle"></h2>
+                    <div class="details">
+                        <p>Hashrate: <span id="modalHashrate"></span></p>
+                        <p id="extraReward" style="display: none;">Extra Reward: +25% Mining Power Bonus! (Only available from the "Legendary Miner" offer and only for the first purchase) </p>
+                        <p>Price: <span id="modalPrice"></span> TON</p>
+                    </div>
+                    <button class="buy-btn" onclick="buyMiningPower()">Buy with TON</button>
+                </div>
+            </div>
+        </section>
+
+        <div class="content">
+            <!-- Previous sections remain unchanged -->
+            <section id="invite" class="section">
+                <div class="invite-container">
+                    <h2>Invite Friends</h2>
+                    <p>Share your referral link and earn rewards!</p>
+                    <div class="referral-link" id="referral-link"></div>
+                    <button class="share-telegram-btn" onclick="shareOnTelegram()">
+                        <i class="fab fa-telegram"></i>
+                        Share on Telegram
+                    </button>
+                </div>
+            </section>
+            <!-- Rest of the sections remain unchanged -->
+        </div>
+
+        <div class="content"></div>
+        <!-- Previous sections remain unchanged -->
+        <section id="daily-rewards" class="section">
+            <div class="daily-rewards-container">
+                <h2>Daily Rewards</h2>
+                <div class="pagination">
+                    <button class="page-btn active" onclick="showPage(1)">Page 1</button>
+                    <button class="page-btn" onclick="showPage(2)">Page 2</button>
+                    <button class="page-btn" onclick="showPage(3)">Page 3</button>
+                    <button class="page-btn" onclick="showPage(4)">Page 4</button>
+                </div>
+                <table class="rewards-table" id="rewards-table">
+                    <!-- Table content will be dynamically generated -->
+                </table>
+            </div>
+        </section>
+        <!-- Rest of the sections remain unchanged -->
+    </div>
+
+      
+
+        <section id="daily-rewards" class="section"></section>
+        <section id="mining-power" class="section"></section>
+        <section id="missions" class="section"></section>
+        <section id="invite" class="section"></section>
+        <section id="more" class="section"></section>
+    </div>
+
+    <nav class="tab-container">
+        <a href="#wallet" class="tab-button">
+            <i class="fas fa-wallet"></i>
+            <span>Wallet</span>
+        </a>
+        <a href="#daily-rewards" class="tab-button">
+            <i class="fas fa-gift"></i>
+            <span>Daily Rewards</span>
+        </a>
+        <a href="#mining-power" class="tab-button">
+            <i class="fas fa-hammer"></i>
+            <span>Mining Power</span>
+        </a>
+        <a href="#home" class="tab-button active">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="#missions" class="tab-button">
+            <i class="fas fa-tasks"></i>
+            <span>Missions</span>
+        </a>
+        <a href="#invite" class="tab-button">
+            <i class="fas fa-user-plus"></i>
+            <span>Invite</span>
+        </a>
+        <a href="#more" class="tab-button">
+            <i class="fas fa-ellipsis-h"></i>
+            <span>More</span>
+        </a>
+    </nav>
+
+    <script>
+
+    let miningInterval;
+    let currentValue = 0;
+    let rbtBalance = 0;
+    let miningPower = 0; // Mining power in mo/s
+
+    function startMining() {
+    const miningBtn = document.getElementById('mining-btn');
+    const miningValue = document.getElementById('mining-value');
+    let timeLeft = 3600;
+
+    miningBtn.innerHTML = formatTime(timeLeft);
+    miningBtn.onclick = null;
+    miningBtn.classList.add('timer');
+
+    miningInterval = setInterval(() => {
+        timeLeft--;
+        // Calculate mining value based on mining power (mo/s)
+        // Convert mo/s to RBT using a ratio (here 0.01375 RBT per mo)
+        currentValue += (miningPower * 0.01375);
+        miningValue.textContent = currentValue.toFixed(2);
+        miningBtn.innerHTML = formatTime(timeLeft);
+
+        if (timeLeft <= 0) {
+            clearInterval(miningInterval);
+            miningBtn.innerHTML = '🎉 Claim';
+            miningBtn.classList.remove('timer');
+            miningBtn.classList.add('claim-btn');
+            miningBtn.onclick = claimRewards;
+        }
+    }, 1000);
+}
+
+    function claimRewards() {
+    const rbtValue = document.getElementById('rbt-value');
+    const rbtValueWallet = document.getElementById('rbt-value-wallet');
+    const miningBtn = document.getElementById('mining-btn');
+    const miningValue = document.getElementById('mining-value');
+
+    // Add rewards to balance
+    rbtBalance += currentValue;
+    rbtValue.textContent = rbtBalance.toFixed(2);
+    rbtValueWallet.textContent = rbtBalance.toFixed(2);
+    
+    // Reset mining value
+    currentValue = 0;
+    miningValue.textContent = '0';
+    
+    // Reset button to start mining state
+    miningBtn.innerHTML = '⛏️ Start Mining';
+    miningBtn.onclick = startMining;
+}
+
+        function generateReferralLink() {
+            // Generate a unique referral code (this is a simple example - you might want to use a more sophisticated method)
+            const userId = Math.random().toString(36).substring(2, 15);
+            const baseUrl = window.location.origin + window.location.pathname;
+            return `${baseUrl}?ref=${userId}`;
+        }
+
+        function shareOnTelegram() {
+            const referralLink = document.getElementById('referral-link').textContent;
+            const message = encodeURIComponent(`Join Easter World using my referral link!\n${referralLink}`);
+            window.open(`https://t.me/share/url?url=${message}`);
+        }
+
+        // Initialize referral link when page loads
+        window.addEventListener('DOMContentLoaded', () => {
+            const referralLinkElement = document.getElementById('referral-link');
+            if (referralLinkElement) {
+                referralLinkElement.textContent = generateReferralLink();
+            }
+        });
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }
+
+        function claimRewards() {
+            const rbtValue = document.getElementById('rbt-value');
+            const rbtValueWallet = document.getElementById('rbt-value-wallet');
+            rbtBalance += currentValue;
+            rbtValue.textContent = rbtBalance.toFixed(2);
+            rbtValueWallet.textContent = rbtBalance.toFixed(2);
+            
+            currentValue = 0;
+            document.getElementById('mining-value').textContent = '0';
+            
+            const miningBtn = document.getElementById('mining-btn');
+            miningBtn.innerHTML = '⛏️ Start Mining';
+            miningBtn.classList.remove('claim-btn');
+            miningBtn.onclick = startMining;
+        }
+
+        function navigateToWallet() {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById('wallet').classList.add('active');
+            
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector('a[href="#wallet"]').classList.add('active');
+        }
+
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('href').substring(1);
+                
+                document.querySelectorAll('.section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                document.getElementById(targetId).classList.add('active');
+                
+                document.querySelectorAll('.tab-button').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+
+        const marqueeContent = document.querySelector('.marquee-content');
+        const marqueeText = document.querySelector('.marquee-text');
+        marqueeContent.appendChild(marqueeText.cloneNode(true));
+        
+        let lastClaimTime = localStorage.getItem('lastClaimTime') ? new Date(localStorage.getItem('lastClaimTime')) : null;
+        let currentDay = parseInt(localStorage.getItem('currentDay')) || 1;
+
+        function generateRewardsTable() {
+            const table = document.getElementById('rewards-table');
+            table.innerHTML = '';
+
+            for (let i = 1; i <= 40; i++) {
+                const row = document.createElement('tr');
+                row.id = `day-${i}`;
+                if (i <= currentDay - 1) {
+                    row.classList.add('claimed');
+                }
+
+                const reward = Math.floor(10 + (i * 1.5)); // Increasing rewards each day
+                
+                row.innerHTML = `
+                    <td>Day ${i}</td>
+                    <td><span class="reward-amount">${reward} RBT</span></td>
+                    <td>
+                        <button class="claim-btn" onclick="claimDailyReward(${i}, ${reward})" 
+                            ${i !== currentDay || (lastClaimTime && !canClaim()) ? 'disabled' : ''}>
+                            ${i < currentDay ? 'Claimed' : 'Claim'}
+                        </button>
+                    </td>
+                `;
+                table.appendChild(row);
+            }
+            showPage(Math.ceil(currentDay / 10));
+        }
+
+        function showPage(pageNum) {
+            const rows = document.querySelectorAll('.rewards-table tr');
+            const startIdx = (pageNum - 1) * 10;
+            const endIdx = startIdx + 10;
+
+            rows.forEach((row, idx) => {
+                if (idx >= startIdx && idx < endIdx) {
+                    row.style.display = row.classList.contains('claimed') ? 'none' : 'table-row';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            document.querySelectorAll('.page-btn').forEach((btn, idx) => {
+                btn.classList.toggle('active', idx + 1 === pageNum);
+            });
+        }
+
+        function canClaim() {
+            if (!lastClaimTime) return true;
+            const timeDiff = new Date() - lastClaimTime;
+            return timeDiff >= 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+        }
+
+        function claimDailyReward(day, reward) {
+            if (day !== currentDay || (lastClaimTime && !canClaim())) return;
+
+            // Update RBT balance
+            rbtBalance += reward;
+            document.getElementById('rbt-value').textContent = rbtBalance.toFixed(2);
+            document.getElementById('rbt-value-wallet').textContent = rbtBalance.toFixed(2);
+
+            // Mark as claimed
+            const row = document.getElementById(`day-${day}`);
+            row.classList.add('claimed');
+            row.style.display = 'none';
+
+            // Update claim time and current day
+            lastClaimTime = new Date();
+            localStorage.setItem('lastClaimTime', lastClaimTime.toTime());
+            currentDay++;
+            localStorage.setItem('currentDay', currentDay);
+
+            // Refresh table
+            generateRewardsTable();
+        }
+
+        // Initialize rewards table when page loads
+        window.addEventListener('DOMContentLoaded', generateRewardsTable);
+
+        function claimDailyReward(day, reward) {
+    if (day !== currentDay || (lastClaimTime && !canClaim())) return;
+
+    // Update RBT balance
+    rbtBalance += reward;
+    document.getElementById('rbt-value').textContent = rbtBalance.toFixed(2);
+    document.getElementById('rbt-value-wallet').textContent = rbtBalance.toFixed(2);
+
+    // Add mining power reward (increases with each day)
+    const miningPowerReward = Math.floor(5 + (day * 0.5)); // Increasing mining power reward each day
+    miningPower += miningPowerReward;
+     // Update mining power display
+    updateMiningPowerDisplay();
+
+function formatMiningPower(power) {
+    if (power >= 1000000) { // 1000 Go/s = 1000000 Mo/s
+        return `${(power / 1000000).toFixed(2)} To/s ⚡`;
+    } else if (power >= 1000) { // 1000 Mo/s
+        return `${(power / 1000).toFixed(2)} Go/s ⚡`; 
+    } else {
+        return `${power} Mo/s ⚡`;
+    }
+}
+
+// Update the mining power display function
+function updateMiningPowerDisplay() {
+    const miningPowerDisplay = document.querySelector('.mining-power');
+    if (miningPowerDisplay) {
+        miningPowerDisplay.textContent = formatMiningPower(miningPower);
+    }
+}
+
+    // Mark as claimed
+    const row = document.getElementById(`day-${day}`);
+    row.classList.add('claimed');
+    row.style.display = 'none';
+
+    // Update claim time and current day
+    lastClaimTime = new Date();
+    localStorage.setItem('lastClaimTime', lastClaimTime.toTime());
+    currentDay++;
+    localStorage.setItem('currentDay', currentDay);
+    localStorage.setItem('miningPower', miningPower);
+
+    // Refresh table
+    generateRewardsTable();
+}
+
+function generateRewardsTable() {
+    const table = document.getElementById('rewards-table');
+    table.innerHTML = '';
+
+    for (let i = 1; i <= 40; i++) {
+        const row = document.createElement('tr');
+        row.id = `day-${i}`;
+        if (i <= currentDay - 1) {
+            row.classList.add('claimed');
+        }
+
+        const rbtReward = Math.floor(10 + (i * 1.5)); // Increasing RBT rewards each day
+        const miningPowerReward = Math.floor(5 + (i * 0.5)); // Increasing mining power reward each day
+        
+        row.innerHTML = `
+            <td>Day ${i}</td>
+            <td>
+                <span class="reward-amount">${rbtReward} RBT</span><br>
+                <span class="reward-amount">+${miningPowerReward} mo/s ⚡</span>
+            </td>
+            <td>
+                <button class="claim-btn" onclick="claimDailyReward(${i}, ${rbtReward})" 
+                    ${i !== currentDay || (lastClaimTime && !canClaim()) ? 'disabled' : ''}>
+                    ${i < currentDay ? 'Claimed' : 'Claim'}
+                </button>
+            </td>
+        `;
+        table.appendChild(row);
+    }
+    showPage(Math.ceil(currentDay / 10));
+}
+
+// Initialize mining power from localStorage on page load
+window.addEventListener('DOMContentLoaded', () => {
+    const savedMiningPower = localStorage.getItem('miningPower');
+    if (savedMiningPower) {
+        miningPower = parseInt(savedMiningPower);
+        const miningPowerDisplay = document.querySelector('.mining-power');
+        if (miningPowerDisplay) {
+            miningPowerDisplay.textContent = `${miningPower} mo/s ⚡`;
+        }
+    }
+    generateRewardsTable();
+});
+let walletConnected = false;
+
+function handleWithdraw() {
+    if (!walletConnected) {
+        // Redirect to Telegram bot for first-time users
+        window.location.href = "https://t.me/wallet";
+    } else {
+        // Show morpho payment button for connected users
+        document.getElementById('ton-section').style.display = 'block';
+    }
+}
+
+function payWithMorpho() {
+    // Redirect to wallet interface for Morpho payment
+    window.location.href = "https://t.me/easterworld";
+}
+
+// Check if wallet is already connected (you'll need to implement actual wallet connection logic)
+document.addEventListener('DOMContentLoaded', () => {
+    // This is a placeholder - implement actual wallet connection check
+    walletConnected = localStorage.getItem('walletConnected') === 'true';
+    
+    if (walletConnected) {
+        document.getElementById('ton-section').style.display = 'block';
+    }
+});
+
+function handleWithdraw() {
+    const withdrawSection = document.createElement('div');
+    withdrawSection.style.textAlign = 'center';
+    withdrawSection.style.padding = '20px';
+    withdrawSection.style.color = 'white';
+
+    // Display RBT balance
+    const balanceDisplay = document.createElement('div'); 
+    balanceDisplay.style.fontSize = '24px';
+    balanceDisplay.style.marginBottom = '20px';
+    balanceDisplay.innerHTML = `${rbtBalance.toFixed(2)} RBT`;
+    withdrawSection.appendChild(balanceDisplay);
+
+    // Create TON Connect button
+    const tonConnectBtn = document.createElement('button');
+    tonConnectBtn.innerHTML = 'Pay with 1 TON';
+    tonConnectBtn.className = 'withdraw-btn';
+    tonConnectBtn.onclick = () => {
+        window.location.href = 'https://t.me/wallet'; // TON Connect URL
+    };
+    withdrawSection.appendChild(tonConnectBtn);
+
+    // Replace existing content
+    const walletSection = document.querySelector('.wallet-section');
+    walletSection.innerHTML = '';
+    walletSection.appendChild(withdrawSection);
+}
+
+const miningPackages = {
+    'starter': {
+        name: 'Starter Miner',
+        hashrate: '100 Mo/s',
+        price: 0.1,
+        power: 100,
+        extraRewardEligible: false
+    },
+
+    'basic': {
+        name: 'Basic Miner',
+        hashrate: '500 Mo/s',
+        price: 0.5,
+        power: 500,
+        extraRewardEligible: false
+    },
+    'advanced': {
+        name: 'Advanced Miner',
+        hashrate: '2.5 Go/s',
+        price: 1,
+        power: 2500,
+        extraRewardEligible: false
+    },
+    'pro': {
+        name: 'Pro Miner',
+        hashrate: '15 Go/s',
+        price: 2.5,
+        power: 15000,
+        extraRewardEligible: false
+    },
+    'elite': {
+        name: 'Elite Miner',
+        hashrate: '1 To/s',
+        price: 5,
+        power: 1000000,
+        extraRewardEligible: false
+    },
+    'master': {
+        name: 'Master Miner',
+        hashrate: '200 Go/s',
+        price: 15,
+        power: 200000,
+        extraRewardEligible: false
+    },
+    'supreme': {
+        name: 'Supreme Miner',
+        hashrate: '500 Go/s',
+        price: 30,
+        power: 500000,
+        extraRewardEligible: false
+    },
+    'ultra': {
+        name: 'Ultra Miner',
+        hashrate: '1 To/s',
+        price: 50,
+        power: 1000000,
+        extraRewardEligible: false
+    },
+    'legendary': {
+        name: 'Legendary Miner',
+        hashrate: '2.5 To/s',
+        price: 100,
+        power: 2500000,
+        extraRewardEligible: true
+    },
+        'mythic': {
+            name: 'Mythic Miner',
+            hashrate: '5 To/s',
+            price: 175,
+            power: 5000000,
+            extraRewardEligible: true
+        },
+        'titan': {
+            name: 'Titan Miner',
+            hashrate: '10 To/s',
+            price: 300,
+            power: 10000000,
+            extraRewardEligible: true
+        },
+        'omega': {
+            name: 'Omega Miner',
+            hashrate: '25 To/s',
+            price: 650,
+            power: 25000000,
+            extraRewardEligible: true
+        },
+        'divine': {
+            name: 'Divine Miner',
+            hashrate: '50 To/s',
+            price: 1200,
+            power: 50000000,
+            extraRewardEligible: true
+        },
+        'infinity': {
+            name: 'Infinity Miner',
+            hashrate: '100 To/s',
+            price: 2000,
+            power: 100000000,
+            extraRewardEligible: true
+        }
+};
+
+let hasFirstPurchase = false;
+let currentPackage = '';
+
+function showMiningDetails(package) {
+    currentPackage = package;
+    const modal = document.getElementById('miningModal');
+    const details = miningPackages[package];
+    
+    document.getElementById('modalTitle').textContent = details.name;
+    document.getElementById('modalHashrate').textContent = details.hashrate;
+    document.getElementById('modalPrice').textContent = details.price;
+    
+    // Show extra reward only if it's the first purchase
+    document.getElementById('extraReward').style.display = !hasFirstPurchase ? 'block' : 'none';
+    
+    modal.style.display = 'block';
+}
+
+function closeModal() {
+    document.getElementById('miningModal').style.display = 'none';
+}
+
+function buyMiningPower() {
+    // Redirect to wallet for payment
+    window.location.href = 'https://t.me/wallet';
+    
+    // After successful purchase (you'll need to implement actual purchase verification)
+    if (!hasFirstPurchase) {
+        hasFirstPurchase = true;
+        const bonusPower = miningPackages[currentPackage].power * 0.25;
+        miningPower += miningPackages[currentPackage].power + bonusPower;
+    } else {
+        miningPower += miningPackages[currentPackage].power;
+    }
+    
+    updateMiningPowerDisplay();
+    closeModal();
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+    const modal = document.getElementById('miningModal');
+    if (event.target == modal) {
+        closeModal();
+    }
+}
+
+let adsWatchedToday = parseInt(localStorage.getItem('adsWatchedToday')) || 0;
+let lastAdDate = localStorage.getItem('lastAdDate');
+let boostExpiration = localStorage.getItem('boostExpiration');
+let currentBoost = parseFloat(localStorage.getItem('currentBoost')) || 0;
+let activeBoosts = JSON.parse(localStorage.getItem('activeBoosts')) || [];
+let baseMiningPower = miningPower || 0;
+
+// Reset ads watched if it's a new day
+function checkAndResetDaily() {
+    if (lastAdDate && new Date(lastAdDate).getDate() !== new Date().getDate()) {
+        adsWatchedToday = 0;
+        localStorage.setItem('adsWatchedToday', 0);
+        // Clear expired boosts
+        activeBoosts = activeBoosts.filter(boost => new Date(boost.expiry) > new Date());
+        localStorage.setItem('activeBoosts', JSON.stringify(activeBoosts));
+    }
+}
+
+function updateAdCount() {
+    document.getElementById('adCount').textContent = `Ads watched today: ${adsWatchedToday}/50`;
+    document.getElementById('watchAdBtn').disabled = adsWatchedToday >= 50;
+    if (adsWatchedToday >= 50) {
+        document.getElementById('watchAdBtn').style.opacity = '0.5';
+    }
+}
+
+function calculateTotalBoost() {
+    let totalBoost = 0;
+    const now = new Date();
+    activeBoosts = activeBoosts.filter(boost => new Date(boost.expiry) > now);
+    activeBoosts.forEach(boost => {
+        totalBoost += 0.01; // Each boost adds 1%
+    });
+    return totalBoost;
+}
+
+function updateMiningPower() {
+    const totalBoost = calculateTotalBoost();
+    miningPower = baseMiningPower * (1 + totalBoost);
+    const miningPowerDisplay = document.querySelector('.mining-power');
+    if (miningPowerDisplay) {
+        miningPowerDisplay.textContent = formatMiningPower(miningPower);
+    }
+    localStorage.setItem('activeBoosts', JSON.stringify(activeBoosts));
+}
+
+function updateBoostTimer() {
+    if (boostExpiration) {
+        const timeLeft = new Date(boostExpiration) - new Date();
+        if (timeLeft > 0) {
+            const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            document.getElementById('boostTimeLeft').textContent = `${hours}h ${minutes}m`;
+            document.getElementById('boostTimer').style.display = 'block';
+        } else {
+            currentBoost = 0;
+            localStorage.setItem('currentBoost', 0);
+            document.getElementById('boostTimer').style.display = 'none';
+            boostExpiration = null;
+            localStorage.removeItem('boostExpiration');
+        }
+    }
+}
+
+function watchAd() {
+    if (adsWatchedToday >= 50) {
+        alert('You have reached the maximum number of ads for today. Please come back tomorrow!');
+        return;
+    }
+
+    // Simulating ad watch
+    setTimeout(() => {
+        adsWatchedToday++;
+        localStorage.setItem('adsWatchedToday', adsWatchedToday);
+        localStorage.setItem('lastAdDate', new Date().toISOString());
+        
+        // Add new boost
+        const expiry = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+        activeBoosts.push({
+            id: Date.now(),
+            expiry: expiry.toISOString()
+        });
+        
+        updateMiningPower();
+        updateAdCount();
+        updateBoostList();
+        
+        alert('Thank you for watching! Your mining power has been boosted by 1% for 24 hours!');
+    }, 1000); // Simulated ad duration
+}
+
+// Update display every minute
+setInterval(updateBoostTimer, 60000);
+
+function toggleBoostList() {
+    const boostList = document.getElementById('boostList');
+    boostList.style.display = boostList.style.display === 'none' ? 'block' : 'none';
+    if (boostList.style.display === 'block') {
+        updateBoostList();
+    }
+}
+function updateBoostList() {
+    const boostContainer = document.getElementById('activeBoosts');
+    boostContainer.innerHTML = '';
+    
+    const now = new Date();
+    activeBoosts = activeBoosts.filter(boost => new Date(boost.expiry) > now);
+    
+    if (activeBoosts.length === 0) {
+        boostContainer.innerHTML = '<p style="text-align: center">No active boosts</p>';
+        return;
+    }
+
+    activeBoosts.forEach(boost => {
+        const timeLeft = new Date(boost.expiry) - now;
+        const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+        
+        const boostElement = document.createElement('div');
+        boostElement.style.padding = '5px';
+        boostElement.style.borderBottom = '1px solid rgba(255, 255, 255, 0.1)';
+        boostElement.innerHTML = `+1% Boost - Expires in: ${hours}h ${minutes}m`;
+        boostContainer.appendChild(boostElement);
+    });
+}
+
+// Update boosts and mining power every minute
+setInterval(() => {
+    checkAndResetDaily();
+    updateMiningPower();
+    if (document.getElementById('boostList').style.display === 'block') {
+        updateBoostList();
+    }
+}, 60000);
+
+// Initial updates
+checkAndResetDaily();
+updateAdCount();
+updateMiningPower();
+
+
+
+
+function getUserIP() {
+    return fetch('https://api.ipify.org/?format=json')
+        .then(response => response.json())
+        .then(data => data.ip)
+        .catch(error => {
+            console.error('Impossible de récupérer l’adresse IP:', error);
+            return null;
+        });
+}
+let userIP = null;
+getUserIP().then(ip => {
+    userIP = ip;
+    if (userIP) {
+        loadUserData();
+    } else {
+        console.error("Impossible de suivre l'utilisateur sans son IP.");
+    }
+});
+
+async function loadUserData() {
+    if (!userIP) return;
+
+    try {
+        const response = await fetch('${apiUrl}?ip=${userIP}');  
+        if (response.ok) {
+            const data = await response.json();
+            rbtBalance = data.balance  ||0;
+            miningPower = data.miningPower  ||0;
+
+            lastClaimTime = data.lastClaimTime ? new Date(data.lastClaimTime) : null;
+            currentDay = data.currentDay || 1;
+        
+
+            document.getElementById('rbt-value').textContent = rbtBalance.toFixed(2);
+            document.getElementById('rbt-value-wallet').textContent = rbtBalance.toFixed(2);
+
+            const miningPowerDisplay = document.querySelector('.mining-power');
+            if (miningPowerDisplay) {
+                miningPowerDisplay.textContent = `${miningPower} mo/s ⚡`;
+            }
+
+            generateRewardsTable();
+        } else {
+            console.error('Erreur lors du chargement des données utilisateur.');
+        }
+    } catch (error) {
+        console.error('Impossible de se connecter au serveur backend:', error);
+    }
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    loadUserData();
+document.querySelectorAll('.claim-btn').forEach((btn) => {
+        btn.addEventListener('click', saveUserData);
+    });
+});
+
+if (fs.existsSync('userData.json')) {
+    userData = JSON.parse(fs.readFileSync('userData.json', 'utf8'));
+}
+
+app.listen(port, () => {
+    console.log('Serveur backend en cours d\'exécution : http://localhost:${port}');
+});
+    </script>
+</body>
+</html>
